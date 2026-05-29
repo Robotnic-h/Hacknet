@@ -1,29 +1,28 @@
-# 🦅 Falcon Eye – IA Tactique de Police
+# 🦅 Falcon Eye – Tactical Police AI
 
-> Outil d'aide à la décision basé sur la théorie des graphes, permettant aux unités de police d'appréhender un suspect en fuite dans une zone métropolitaine.
-
----
-
-## 📋 Description du projet
-
-**Falcon Eye** est un système d'intelligence artificielle tactique composé de trois modules :
-
-1. **Recherche du chemin le plus court** — navigation en temps réel vers le suspect
-2. **Surveillance urbaine** — placement optimal de caméras de surveillance
-3. **Logistique des véhicules** — sélection optimale d'équipements tactiques (problème du sac à dos)
+> A decision-support tool based on graph theory, enabling police units to apprehend a fleeing suspect in a metropolitan area.
 
 ---
 
-## 📁 Structure du projet
-/* A modifier en fonction des fichiers*/
-/*Ici, il y a une dossier principal avec 2 fichiers à la racines et 3 sous dossiers (include, src pour source, obj pour l'executable qui va se créer à la compil)*/
+## 📋 Project Description
+
+**Falcon Eye** is a tactical artificial intelligence system composed of three modules:
+
+1. **Shortest path search** — real-time navigation toward the suspect
+2. **Urban surveillance** — optimal placement of surveillance cameras
+3. **Vehicle logistics** — optimal selection of tactical equipment (knapsack problem)
+
+---
+
+## 📁 Project Structure
+
 ```
 falcon-eye/
 ├── README.md
-├── Makefile             # Automatisation de la compilation
-├── assets/              # Contient la police pour le visuel
-│   └── font .ttf
-├── include/             # Fichiers d'en-tête (.h)
+├── Makefile             # Build automation
+├── assets/              # Contains the font for visuals
+│   └── font.ttf
+├── include/             # Header files (.h)
 │   ├── astar.h
 │   ├── dijkstra.h
 │   ├── ecran_camera.h
@@ -37,7 +36,7 @@ falcon-eye/
 │   ├── kruskal.h
 │   ├── rendu.h
 │   └── types.h
-├── src/                 # Fichiers source (.c)
+├── src/                 # Source files (.c)
 │   ├── astar.c
 │   ├── dijkstra.c
 │   ├── ecran_camera.c
@@ -51,7 +50,7 @@ falcon-eye/
 │   ├── kruskal.c
 │   ├── main.c
 │   └── rendu.c
-└── obj/                 # Fichiers objets (générés lors de la compilation)
+└── obj/                 # Object files (generated during compilation)
     ├── astar.o
     ├── dijkstra.o
     ├── ecran_camera.o
@@ -71,55 +70,53 @@ falcon-eye/
 
 ## ⚙️ Compilation
 
-#### Attention 
+#### Important
 
-Pour lancer le projet, il est nécessaire d'installer la librairie SDL2 avec les commandes suivantes
+To run the project, you must install the SDL2 library using the following commands:
 
-```
-# Sur Linux
-
+```bash
+# On Linux
 sudo apt update
 sudo apt install libsdl2-dev
 
-# Sur Windows avec vcpkg
-# installer vcpkg via ce lien: https://vcpkg.io/en/?utm_source=chatgpt.com
+# On Windows with vcpkg
+# Install vcpkg via this link: https://vcpkg.io/en/
 vcpkg install sdl2
 
-# Sur Windows avec MSYS2
+# On Windows with MSYS2
 pacman -S mingw-w64-x86_64-SDL2
 
-# Vérifier l'installation
+# Verify installation
 sdl2-config --version
 ```
 
-### Prérequis
+### Prerequisites
 
-- Compilateur C (`gcc`)
+- C compiler (`gcc`)
 - GNU Make (`make`)
-- Bibliothèques mathématique standard (`-lm`)
-- Et évidemment SDL2
+- Standard math library (`-lm`)
+- SDL2
 
-
-### Utiliser le Makefile
+### Using the Makefile
 
 ```bash
-# Compiler l'application
+# Compile the application
 make
 
-# recompiler l'application
+# Recompile the application
 make re
 
-# Nettoyer les fichiers compilés
+# Clean compiled files
 make clean
 
-# Nettoyer et recompiler
+# Clean and recompile
 make rebuild
 
-# Afficher les informations de compilation
+# Display compilation information
 make help
 ```
 
-### Compilation manuelle (alternative)
+### Manual compilation (alternative)
 
 ```bash
 gcc -Wall -Wextra -g -Iinclude $(sdl2-config --cflags) \
@@ -134,127 +131,122 @@ gcc -Wall -Wextra -g -Iinclude $(sdl2-config --cflags) \
 
 ---
 
-## 🚀 Lancement
+## 🚀 Running the Program
 
 ```bash
 ./hacknet
 ```
 
-Le programme affiche un menu intéractif permettant de choisir le module à exécuter.
-Vous êtes l'acolyte d'un voleur et êtes entrés dans le système de la police.
+The program displays an interactive menu for selecting which module to run. You play the role of a thief's accomplice who has broken into the police system.
 
-Votre but, aider votre collègue en fonction des différents modules à votre disposition.
-Pour chaque module, il y a trois graphes représentant les villes de Laval, Agen et Paris.
-
+Your goal is to help your colleague using the various modules at your disposal. Each module offers three graphs representing the cities of Laval, Agen, and Paris.
 
 ---
 
-## 🎒 Module 1 – Logistique des véhicules (Sac à dos 0/1)
+## 🎒 Module 1 – Vehicle Logistics (0/1 Knapsack)
 
-### Problème
+### Problem
 
-Chaque véhicule de police a une **capacité maximale de 60 kg**. Il faut sélectionner la combinaison d'équipements qui **maximise la valeur tactique totale** sans dépasser ce poids.
+Each police vehicle has a **maximum capacity of 60 kg**. The goal is to select the combination of equipment that **maximizes total tactical value** without exceeding this weight.
 
-### Inventaire disponible
+### Available Inventory
 
-| Article               | Poids (kg) | Valeur Tactique (%) |
-|-----------------------|------------|---------------------|
-| Gyrophare             | 5          | 2                   |
-| Menottes              | 2          | 0.5                 |
-| Talkie Walkie         | 8          | 4                   |
-| Brouilleur de signal  | 18         | 9                   |
-| sifflet               | 1          | 07                  |
-| Pistolet              | 10         | 5                   |
+| Item                  | Weight (kg) | Tactical Value (%) |
+|-----------------------|-------------|---------------------|
+| Emergency light       | 5           | 2                   |
+| Handcuffs             | 2           | 0.5                 |
+| Walkie-Talkie         | 8           | 4                   |
+| Signal jammer         | 18          | 9                   |
+| Whistle               | 1           | 7                   |
+| Pistol                | 10          | 5                   |
 
-### Algorithme Best Fit
+### Best Fit Algorithm
 
-Nous avions commencé par implementer cet algorithme que nous connaissons depuis au moins notre 1er année à l'ESIEA. Une fois fait, nous nous sommes demandé si celui-ci était le plus efficace. 
-Nous avons fait nos recherche et nous sommes rendu compte que knapsack etait plus opyimisé.
+We initially implemented this algorithm, which we have been familiar with since at least our first year at ESIEA. Once completed, we questioned whether it was the most efficient approach. After further research, we concluded that the Knapsack algorithm was better optimized.
 
-### Algorithme KNAPSACk
+### KNAPSACK Algorithm
 
-Programmation dynamique (sac à dos 0/1) — complexité O(n × W) où W = capacité maximale.
+Dynamic programming (0/1 knapsack) — complexity O(n × W) where W = maximum capacity.
 
-Structure: définit la structure Item (champs value, weight) et trois fonctions principales : knapsack(), Best_Fit() et main().
+**Structure:** defines the `Item` struct (fields `value`, `weight`) and three main functions: `knapsack()`, `Best_Fit()`, and `main()`.
 
-knapsack(int W, Item items[], int n) :
+**`knapsack(int W, Item items[], int n)`:**
 
-But: calculer la valeur maximale que l'on peut charger dans une capacité W (problème du sac à dos 0/1) et afficher les articles choisis.
+- **Purpose:** compute the maximum value that can be loaded within capacity W (0/1 knapsack problem) and display the chosen items.
+- **Method:** dynamic programming using a 2D table `dp[n+1][W+1]` where `dp[i][w]` = maximum value using the first `i` items with capacity `w`.
+- **Filling:** for each item `i` and each capacity `w`, choose the max between not taking the item (`dp[i-1][w]`) or taking it (`dp[i-1][w-wt] + val`) if its weight `wt ≤ w`.
+- **Traceback:** after computation, backtrack through the table from `dp[n][W]` to determine which items were selected, then display the list, total weight, and total value.
+- **Complexity:** time O(n·W), memory O(n·W).
 
-Méthode: programmation dynamique avec une table 2D dp[n+1][W+1] où dp[i][w] = valeur maximale avec les i premiers articles et capacité w.
-Remplissage: pour chaque article i et chaque capacité w, on choisit le max entre ne pas prendre l'article (dp[i-1][w]) ou le prendre (dp[i-1][w-wt] + val) si son poids wt ≤ w.
-Traceback: après calcul, on remonte la table depuis dp[n][W] pour déterminer quels articles ont été pris, et on affiche la liste, le poids total et la valeur totale.
-Complexité: temps O(n·W), mémoire O(n·W).
-Best_Fit(int W, Item items[], int n) :
+**`Best_Fit(int W, Item items[], int n)`:**
 
-But: heuristique gloutonne simple (non optimale) pour remplir le sac.
-Méthode: parcourt les articles dans l'ordre donné et ajoute chaque article si le poids cumulé reste ≤ W.
-Complexité: O(n). Résultat dépend de l'ordre des articles (pas de tri effectué).
-main() :
+- **Purpose:** simple greedy heuristic (non-optimal) for filling the knapsack.
+- **Method:** iterates through items in the given order and adds each one if the cumulative weight stays ≤ W.
+- **Complexity:** O(n). Result depends on item ordering (no sorting performed).
 
-Définit W = 40 et un tableau d'Item.
-Appelle knapsack() pour afficher la valeur optimale et les articles choisis, puis Best_Fit() pour afficher la valeur obtenue par l'heuristique.
-Observations:
+**`main()`:** sets W = 40 and an array of `Item`, calls `knapsack()` to display the optimal value and selected items, then calls `Best_Fit()` to display the heuristic result.
 
-knapsack() fournit la solution exacte (DP) mais coûteuse en mémoire pour grandes capacités.
-Best_Fit() est rapide mais souvent sous-optimal.
-Le code imprime à la fois la valeur optimale et la solution heuristique pour comparaison.
+**Observations:**
+- `knapsack()` provides the exact solution (DP) but is memory-intensive for large capacities.
+- `Best_Fit()` is fast but often suboptimal.
+- The code prints both the optimal value and the heuristic solution for comparison.
 
-### Références
-https://www.geeksforgeeks.org/dsa/0-1-knapsack-problem-dp-10/
+### References
+- https://www.geeksforgeeks.org/dsa/0-1-knapsack-problem-dp-10/
+
 ---
 
-## 📷 Module 2 – Surveillance urbaine
+## 📷 Module 2 – Urban Surveillance
 
-### Problème
+### Problem
 
-Minimiser le nombre de caméras à placer aux intersections de façon à ce que **chaque rue soit surveillée** par au moins une caméra. Une caméra placée à un nœud couvre toutes les arêtes directement connectées.
+Minimize the number of cameras placed at intersections such that **every street is monitored** by at least one camera. A camera placed at a node covers all directly connected edges.
 
-Ce problème est connu sous le nom de **couverture minimale par sommets** (*Minimum Vertex Cover*).
+This problem is known as **Minimum Vertex Cover**.
 
-### Approche implémentée
+### Implemented Approach
 
-Heuristique gloutonne :
-1. Sélectionner le nœud de plus haut degré (le plus de rues connectées)
-2. Marquer toutes ses arêtes comme couvertes
-3. Répéter jusqu'à couverture totale
+Greedy heuristic:
+1. Select the node with the highest degree (most connected streets)
+2. Mark all its edges as covered
+3. Repeat until full coverage
 
-Entrée / Sortie: prend une matrice d'adjacence pondérée n×n ; renvoie/affiche la liste des intersections à équiper, le nombre de caméras et le coût total (somme des poids de l'ACM).
-Étape 1 — Extraction et tri des arêtes: lit la matrice, crée la liste des arêtes (u,v,poids) puis trie par poids croissant (préparation pour Kruskal).
+**Input / Output:** takes a weighted n×n adjacency matrix; returns/displays the list of intersections to equip, the number of cameras, and the total cost (sum of MST weights).
 
-Étape 2 — Kruskal + DSU: utilise une structure Union-Find (DSU) pour construire l'Arbre Couvrant Minimum (ACM). Complexité dominante: tri O(E log E); DSU avec compression donne quasi-constante par opération.
+**Step 1 — Edge extraction and sorting:** reads the matrix, builds the edge list (u, v, weight), then sorts by ascending weight (preparation for Kruskal).
 
-Étape 3 — Calcul des degrés: calcule le degré de chaque sommet dans l'ACM (compte des arêtes incidentes).
+**Step 2 — Kruskal + DSU:** uses a Union-Find (DSU) structure to build the Minimum Spanning Tree (MST). Dominant complexity: sorting O(E log E); DSU with path compression gives near-constant time per operation.
 
-Étape 4 — Vertex cover glouton sur l'ACM: parcourt les arêtes de l'ACM, et pour chaque arête non encore couverte, choisit le sommet (u ou v) de plus grand degré, place une caméra à ce sommet, et marque toutes les arêtes incidentes comme couvertes. C'est une heuristique gloutonne (rapide mais pas garantie optimale pour le vertex cover général).
-Résultat: res->nb_cameras (nombre de caméras), res->cameras[] (liste des sommets choisis), res->cout_total (coût total de l'ACM). Le programme affiche ensuite ces informations.
-Observations / limites:
+**Step 3 — Degree computation:** computes each vertex's degree in the MST (count of incident edges).
 
-L'approche réduit le problème global (vertex cover) à une heuristique sur l'ACM — résultat pratique mais pas nécessairement minimal globalement.
-Le coût affiché est le coût de l'ACM (somme des poids), pas un coût lié aux caméras elles‑mêmes.
+**Step 4 — Greedy vertex cover on MST:** iterates over MST edges; for each uncovered edge, selects the vertex (u or v) with the highest degree, places a camera there, and marks all incident edges as covered. This is a greedy heuristic (fast but not guaranteed optimal for the general vertex cover problem).
 
-Complexité globale: tri + Kruskal O(E log E) + O(E) pour le reste; mémoire proportionnelle à E et n.
+**Result:** `res->nb_cameras` (number of cameras), `res->cameras[]` (list of selected vertices), `res->cout_total` (total MST cost). The program then displays this information.
 
-### Réfférences
+**Observations / limitations:**
+- The approach reduces the global problem (vertex cover) to a heuristic on the MST — practical result, but not necessarily globally minimal.
+- The displayed cost is the MST cost (sum of weights), not a camera-related cost.
+- **Overall complexity:** sorting + Kruskal O(E log E) + O(E) for the rest; memory proportional to E and n.
+
+### References
 - https://github.com/vikasawadhiya/Kruskal-Algorithm
 - https://www.geeksforgeeks.org/dsa/kruskals-minimum-spanning-tree-algorithm-greedy-algo-2/
 
 ---
 
+## 🗺️ Module 3 – Shortest Path (A\*)
 
-## 🗺️ Module 3 – Chemin le plus court (A\*)
+### Principle
 
-### Principe
+The city's road network is modeled as a **weighted directed graph**:
 
-Le réseau routier de la ville est modélisé comme un **graphe orienté pondéré** :
+- **Nodes:** city intersections
+- **Edges:** streets connecting two intersections
+- **Weights:** traversal cost of a street (distance, speed, traffic density)
 
-- **Nœuds** : intersections de la ville
-- **Arêtes** : rues reliant deux intersections
-- **Poids** : coût de traversée d'une rue (distance, vitesse, densité du trafic)
+### Input
 
-### Entrée
-
-Le graphe est défini par une **matrice d'adjacence** `int matrice[N][N]` :
+The graph is defined by an **adjacency matrix** `int matrice[N][N]`:
 
 ```c
 int matrice[N][N] = {
@@ -272,56 +264,57 @@ int matrice[N][N] = {
 };
 ```
 
-`0` = pas d'arête, `> 0` = poids de l'arête.
+`0` = no edge, `> 0` = edge weight.
 
-###Djikstra
+### Dijkstra
 
-Nous avion implenté pour commencer Djikstra qui fonctionne avec la matrice d'adjacence. Le code est toujours dans le dossier.
+We initially implemented Dijkstra, which works with the adjacency matrix. The code is still in the project folder.
 
-Nous savons que Djikstra est un bon algorithme de plus court chemin, mais en termes d'efficacité A* le surpasse, c'est d'ailleur une variante de celui-ci qui est souvent utilisé dans nos GPS.
+We know Dijkstra is a solid shortest-path algorithm, but in terms of efficiency, A* surpasses it — a variant of A* is in fact commonly used in GPS systems.
 
-Pour pouvoir nous renseigner nous avons chercher un algorithme A* en C sans IA, mais sans succès, notre seul source d'information est un algorithme en C++, et les algorithmes en language naturel de nos cours..
+To learn more, we searched for an A* implementation in C without AI assistance, but without success. Our only reference was an implementation in C++, along with the natural-language algorithm descriptions from our coursework.
 
-### Algorithme A\*
+### A\* Algorithm
 
-L'algorithmeA\* combine :
-- `g(n)` : coût réel depuis la source
-- `h(n)` : heuristique (distance euclidienne vers la destination)
-- `f(n) = g(n) + h(n)` : score de priorité
+The A\* algorithm combines:
+- `g(n)`: actual cost from the source
+- `h(n)`: heuristic (Euclidean distance to the destination)
+- `f(n) = g(n) + h(n)`: priority score
 
-À chaque étape, le nœud avec le **f minimum** est développé. L'heuristique étant admissible, le chemin retourné est **toujours optimal**.
+At each step, the node with the **minimum f** is expanded. Since the heuristic is admissible, the returned path is **always optimal**.
 
-> Si les coordonnées ne sont pas disponibles, mettre `x[] = y[] = 0` → A\* se comporte alors comme Dijkstra.
+> If coordinates are unavailable, set `x[] = y[] = 0` → A\* then behaves like Dijkstra.
 
-### Simulation dynamique
+### Dynamic Simulation
 
-L'hélicoptère transmet en temps réel la position du voleur et de la police. À chaque mise à jour :
+The helicopter transmits the thief's and police's positions in real time. On each update:
 
-1. Le nœud cible est mis à jour
-2. `astar()` est rappelée depuis la position courante du véhicule
-3. Le nouveau trajet est affiché
+1. The target node is updated
+2. `astar()` is called again from the vehicle's current position
+3. The new route is displayed
 
-### Exemple de sortie
+### Sample Output
 
 ```
-=== Falcon Eye – Algorithme A* ===
+=== Falcon Eye – A* Algorithm ===
 
 Test 1 : 0 --> 9
-Chemin trouvé (6 nœuds) :
+Path found (6 nodes):
   0 --(2.0)--> 1 --(4.0)--> 2 --(3.0)--> 5 --(3.0)--> 8 --(2.0)--> 9
-Coût total : 14.00
+Total cost: 14.00
 
 Test 3 : 3 --> 9
-Chemin trouvé (5 nœuds) :
+Path found (5 nodes):
   3 --(3.0)--> 4 --(2.0)--> 5 --(3.0)--> 8 --(2.0)--> 9
-Coût total : 10.00
+Total cost: 10.00
 ```
 
 ---
 
-## 👥 Équipe
+## 👥 Team
 
-Ce projet est réalisé par un groupes de 3 étudiants dans le cadre du cours de **Théorie des Graphes**.
+This project was carried out by a group of 3 students as part of the **Graph Theory** course.
+
 Rose Nédélec
 Jordan Philippe
 Amaury Lefevre
